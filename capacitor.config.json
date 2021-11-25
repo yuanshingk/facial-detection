@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "FacialDetection",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

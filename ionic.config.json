@@ -1,0 +1,8 @@
+{
+  "name": "FacialDetection",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "91e31588"
+}
