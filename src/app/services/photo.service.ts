@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Storage } from '@capacitor/storage';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ export class PhotoService {
 
   public photo: InMemoryPhoto;
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   public async addNewToGallery() {
@@ -21,12 +20,23 @@ export class PhotoService {
       quality: 100
     });
 
-    const base64Data = await this.readAsBase64(capturedPhoto);
-    console.log(base64Data);
     this.photo = {
       webviewPath: capturedPhoto.webPath,
-      base64Data
+      faceCount: 'Processing...',
     };
+
+    const base64Data = await this.readAsBase64(capturedPhoto);
+
+    // Call Facial Detaction API
+    this.http.post(
+      'https://facial-detection-333313.as.r.appspot.com/images',
+      {
+        image: base64Data
+      })
+      .subscribe(data => {
+        const castData = data as ApiResponse;
+        this.photo.faceCount = `Total faces: ${castData.count}`;
+      });
   }
 
   private async readAsBase64(cameraPhoto: Photo) {
@@ -52,5 +62,9 @@ export class PhotoService {
 
 export interface InMemoryPhoto {
   webviewPath: string;
-  base64Data: string;
+  faceCount: string;
+}
+
+export interface ApiResponse {
+  count: string;
 }
