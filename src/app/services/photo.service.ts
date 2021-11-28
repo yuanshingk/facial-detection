@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +14,20 @@ export class PhotoService {
   constructor(private http: HttpClient) {
   }
 
+  public checkLiveness(): Observable<boolean> {
+    return this.http
+      .get('https://facial-detection-333313.as.r.appspot.com/liveness', { responseType : 'text' })
+      .pipe(
+        map(_ => true)
+      );
+  }
+
   public async addNewToGallery() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 100
+      quality: 30
     });
 
     this.photo = {

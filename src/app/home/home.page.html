@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid *ngIf="photoService.photo">
+  <ion-grid *ngIf="healthy && photoService.photo">
     <ion-row>
       <ion-col>
         <ion-img [src]="photoService.photo.webviewPath"></ion-img>
