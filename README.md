@@ -18,7 +18,7 @@ Upload a photo and the application will show the count of faces detected within 
 
 1. Clone this repository
     ```
-    git@github.com:yuanshingk/facial-detection.git
+    git clone git@github.com:yuanshingk/facial-detection.git
     ```
 
 1. Navigate into `/facial-detection` folder and run the following commands
